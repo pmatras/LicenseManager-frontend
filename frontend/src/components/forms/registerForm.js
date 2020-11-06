@@ -26,7 +26,9 @@ const RegisterForm = ({
   const [userData, setUserData] = useState({
     username: '',
     password: '',
+    rePassword: '',
     email: '',
+    reEmail: '',
     firstName: '',
     lastName: '',
   });
@@ -39,7 +41,10 @@ const RegisterForm = ({
   };
 
   const submitRegisterRequest = () => {
-    registerUser(userData);
+    // eslint-disable-next-line no-unused-vars
+    const { rePassword, reEmail, ...registrationData } = userData;
+
+    registerUser(registrationData);
   };
 
   return (
@@ -83,11 +88,28 @@ const RegisterForm = ({
           onChange={formsHandler}
         />
       </EuiFormRow>
+      <EuiFormRow fullWidth label="Re-enter password">
+        <EuiFieldPassword
+          name="rePassword"
+          placeholder="Re-enter your password"
+          value={userData.rePassword}
+          type="dual"
+          onChange={formsHandler}
+        />
+      </EuiFormRow>
       <EuiFormRow fullWidth label="E-mail">
         <EuiFieldText
           name="email"
           placeholder="Enter your e-mail"
           value={userData.email}
+          onChange={formsHandler}
+        />
+      </EuiFormRow>
+      <EuiFormRow fullWidth label="Re-enter e-mail">
+        <EuiFieldText
+          name="reEmail"
+          placeholder="Re-enter your e-mail"
+          value={userData.reEmail}
           onChange={formsHandler}
         />
       </EuiFormRow>
