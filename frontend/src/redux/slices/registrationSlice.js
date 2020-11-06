@@ -23,24 +23,42 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    setFormErrorMessage: (state, action) => {
-      state.registrationMessage.success = false;
-      state.registrationMessage.text = action.payload;
+    setFormErrorMessage: (state, { payload }) => {
+      return {
+        ...state,
+        registrationMessage: {
+          success: false,
+          text: payload,
+        },
+      };
     },
   },
   extraReducers: {
     [registerUser.pending]: (state) => {
-      state.isRegistrationInProgress = true;
+      return {
+        ...state,
+        isRegistrationInProgress: true,
+      };
     },
-    [registerUser.fulfilled]: (state, action) => {
-      state.isRegistrationInProgress = false;
-      state.registrationMessage.success = true;
-      state.registrationMessage.text = action.payload.message;
+    [registerUser.fulfilled]: (state, { payload: { message } }) => {
+      return {
+        ...state,
+        isRegistrationInProgress: false,
+        registrationMessage: {
+          success: true,
+          text: message,
+        },
+      };
     },
-    [registerUser.rejected]: (state, action) => {
-      state.isRegistrationInProgress = false;
-      state.registrationMessage.success = false;
-      state.registrationMessage.text = action.payload.message;
+    [registerUser.rejected]: (state, { payload: { message } }) => {
+      return {
+        ...state,
+        isRegistrationInProgress: false,
+        registrationMessage: {
+          success: false,
+          text: message,
+        },
+      };
     },
   },
 });
