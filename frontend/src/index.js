@@ -1,12 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode } from 'react';
+import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
-  <React.StrictMode>
-   <div></div>
-  </React.StrictMode>,
-  document.getElementById('root')
+import '@elastic/eui/dist/eui_theme_dark.css';
+//import '@elastic/eui/dist/eui_theme_light.css';
+//import '@elastic/eui/dist/eui_theme_amsterdam_dark.css';
+//import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
+
+import App from './app';
+
+render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById('page')
 );
 
 reportWebVitals();
