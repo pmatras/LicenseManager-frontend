@@ -1,10 +1,14 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { registerUser } from '../../redux/slices/registrationSlice';
+import {
+  registerUser,
+  setFormErrorMessage,
+} from '../../redux/slices/registrationSlice';
 import icon from '../../icon.svg';
+import { validateEmail, validatePassword } from '../../common/validators';
 
 import {
   EuiButton,
@@ -16,12 +20,14 @@ import {
   EuiIcon,
   EuiSpacer,
   EuiText,
+  EuiTextColor,
 } from '@elastic/eui';
 
 const RegisterForm = ({
   isRegistrationInProgress,
   registrationMessage: { success, text },
   registerUser,
+  setFormErrorMessage,
 }) => {
   const [userData, setUserData] = useState({
     username: '',
@@ -33,6 +39,11 @@ const RegisterForm = ({
     lastName: '',
   });
 
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  useEffect(() => setFormErrorMessage(''), []);
+
   const formsHandler = ({ target: { name, value } }) => {
     setUserData({
       ...userData,
@@ -40,11 +51,35 @@ const RegisterForm = ({
     });
   };
 
+  const validateReForms = () => {
+    const { password, rePassword, email, reEmail } = userData;
+    setPasswordError(password === rePassword ? '' : `Passwords doesn't match`);
+    setEmailError(email === reEmail ? '' : `Emails doesn't match`);
+
+    return password === rePassword && email === reEmail;
+  };
+
+  const validateForm = () => {
+    const { password, email } = userData;
+    const isPasswordValid = validatePassword(password);
+    setPasswordError(
+      isPasswordValid ? '' : 'Password must have at least 8 characters'
+    );
+    const isEmailValid = validateEmail(email);
+    setEmailError(isEmailValid ? '' : `Email isn't valid`);
+
+    return isPasswordValid && isEmailValid;
+  };
+
   const submitRegisterRequest = () => {
     // eslint-disable-next-line no-unused-vars
     const { rePassword, reEmail, ...registrationData } = userData;
-
-    registerUser(registrationData);
+    if (validateReForms() && validateForm()) {
+      registerUser(registrationData);
+      setFormErrorMessage('');
+    } else {
+      setFormErrorMessage('Your form contains errors');
+    }
   };
 
   return (
@@ -79,7 +114,7 @@ const RegisterForm = ({
           onChange={formsHandler}
         />
       </EuiFormRow>
-      <EuiFormRow fullWidth label="Password">
+      <EuiFormRow fullWidth label="Password" isInvalid={passwordError !== ''}>
         <EuiFieldPassword
           name="password"
           placeholder="Enter your password"
@@ -88,7 +123,12 @@ const RegisterForm = ({
           onChange={formsHandler}
         />
       </EuiFormRow>
-      <EuiFormRow fullWidth label="Re-enter password">
+      <EuiFormRow
+        fullWidth
+        label="Re-enter password"
+        isInvalid={passwordError !== ''}
+        helpText={<EuiTextColor color="danger">{passwordError}</EuiTextColor>}
+      >
         <EuiFieldPassword
           name="rePassword"
           placeholder="Re-enter your password"
@@ -97,7 +137,7 @@ const RegisterForm = ({
           onChange={formsHandler}
         />
       </EuiFormRow>
-      <EuiFormRow fullWidth label="E-mail">
+      <EuiFormRow fullWidth label="E-mail" isInvalid={emailError !== ''}>
         <EuiFieldText
           name="email"
           placeholder="Enter your e-mail"
@@ -105,7 +145,12 @@ const RegisterForm = ({
           onChange={formsHandler}
         />
       </EuiFormRow>
-      <EuiFormRow fullWidth label="Re-enter e-mail">
+      <EuiFormRow
+        fullWidth
+        label="Re-enter e-mail"
+        isInvalid={emailError !== ''}
+        helpText={<EuiTextColor color="danger">{emailError}</EuiTextColor>}
+      >
         <EuiFieldText
           name="reEmail"
           placeholder="Re-enter your e-mail"
@@ -138,7 +183,7 @@ const RegisterForm = ({
       >
         <EuiButton
           fill
-          size="xl"
+          size="m"
           onClick={() => {
             submitRegisterRequest();
           }}
@@ -159,6 +204,7 @@ RegisterForm.propTypes = {
   isRegistrationInProgress: PropTypes.bool.isRequired,
   registrationMessage: PropTypes.object.isRequired,
   registerUser: PropTypes.func.isRequired,
+  setFormErrorMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -169,6 +215,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   registerUser: (userData) => dispatch(registerUser(userData)),
+  setFormErrorMessage: (errorMessage) =>
+    dispatch(setFormErrorMessage(errorMessage)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

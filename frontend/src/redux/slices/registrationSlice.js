@@ -22,6 +22,12 @@ const registerUser = createAsyncThunk(
 const registrationSlice = createSlice({
   name: 'registration',
   initialState,
+  reducers: {
+    setFormErrorMessage: (state, action) => {
+      state.registrationMessage.success = false;
+      state.registrationMessage.text = action.payload;
+    },
+  },
   extraReducers: {
     [registerUser.pending]: (state) => {
       state.isRegistrationInProgress = true;
@@ -40,4 +46,6 @@ const registrationSlice = createSlice({
 });
 
 const { reducer: registrationReducer } = registrationSlice;
-export { registrationReducer, registerUser };
+const { setFormErrorMessage } = registrationSlice.actions;
+
+export { registrationReducer, registerUser, setFormErrorMessage };
