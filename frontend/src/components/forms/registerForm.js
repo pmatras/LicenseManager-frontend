@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import {
   registerUser,
-  setFormErrorMessage,
+  setFormMessage,
 } from '../../redux/slices/registrationSlice';
 import icon from '../../icon.svg';
 import { validateEmail, validatePassword } from '../../common/validators';
@@ -27,7 +27,7 @@ const RegisterForm = ({
   isRegistrationInProgress,
   registrationMessage: { success, text },
   registerUser,
-  setFormErrorMessage,
+  setFormMessage,
 }) => {
   const [userData, setUserData] = useState({
     username: '',
@@ -42,13 +42,24 @@ const RegisterForm = ({
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
 
-  useEffect(() => setFormErrorMessage(''), []);
+  useEffect(() => {
+    setFormMessage({ success: true, text: '' });
+  }, []);
 
   const formsHandler = ({ target: { name, value } }) => {
     setUserData({
       ...userData,
       [name]: value,
     });
+  };
+
+  const isFormComplete = () => {
+    if (Object.keys(userData).some((key) => userData[key] === '')) {
+      setFormMessage({ success: false, text: 'Please fill every field' });
+
+      return false;
+    }
+    return true;
   };
 
   const validateReForms = () => {
@@ -74,11 +85,13 @@ const RegisterForm = ({
   const submitRegisterRequest = () => {
     // eslint-disable-next-line no-unused-vars
     const { rePassword, reEmail, ...registrationData } = userData;
-    if (validateReForms() && validateForm()) {
-      registerUser(registrationData);
-      setFormErrorMessage('');
-    } else {
-      setFormErrorMessage('Your form contains errors');
+    if (isFormComplete()) {
+      if (validateReForms() && validateForm()) {
+        registerUser(registrationData);
+        setFormMessage({ success: true, text: '' });
+      } else {
+        setFormMessage({ success: false, text: 'Your form contains errors' });
+      }
     }
   };
 
@@ -204,7 +217,7 @@ RegisterForm.propTypes = {
   isRegistrationInProgress: PropTypes.bool.isRequired,
   registrationMessage: PropTypes.object.isRequired,
   registerUser: PropTypes.func.isRequired,
-  setFormErrorMessage: PropTypes.func.isRequired,
+  setFormMessage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ registration }) => ({
@@ -215,8 +228,7 @@ const mapStateToProps = ({ registration }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   registerUser: (userData) => dispatch(registerUser(userData)),
-  setFormErrorMessage: (errorMessage) =>
-    dispatch(setFormErrorMessage(errorMessage)),
+  setFormMessage: (message) => dispatch(setFormMessage(message)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

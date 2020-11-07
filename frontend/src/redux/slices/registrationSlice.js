@@ -25,12 +25,12 @@ const registrationSlice = createSlice({
   name: 'registration',
   initialState,
   reducers: {
-    setFormErrorMessage: (state, { payload }) => {
+    setFormMessage: (state, { payload: { success, text } }) => {
       return {
         ...state,
         registrationMessage: {
-          success: false,
-          text: payload,
+          success: success,
+          text: text,
         },
       };
     },
@@ -66,6 +66,6 @@ const registrationSlice = createSlice({
 });
 
 const { reducer: registrationReducer } = registrationSlice;
-const { setFormErrorMessage } = registrationSlice.actions;
+const { setFormMessage } = registrationSlice.actions;
 
-export { registrationReducer, registerUser, setFormErrorMessage };
+export { registrationReducer, registerUser, setFormMessage };
