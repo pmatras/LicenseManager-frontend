@@ -5,7 +5,7 @@ const initialState = {
   isAuthenticated: false,
   isAuthenticationInProgress: false,
   authenticationMessage: {
-    succcess: true,
+    success: true,
     text: '',
   },
   authorizationToken: '',
@@ -24,13 +24,26 @@ const authenticateUser = createAsyncThunk(
     return axios
       .post('/api/auth/login', credentials)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error.response.data));
+      .catch((error) =>
+        rejectWithValue(error.response ? error.response.data : error.message)
+      );
   }
 );
 
 const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
+  reducers: {
+    setFormMessage: (state, { payload: { success, text } }) => {
+      return {
+        ...state,
+        authenticationMessage: {
+          success,
+          text,
+        },
+      };
+    },
+  },
   extraReducers: {
     [authenticateUser.pending]: (state) => {
       return {
@@ -46,13 +59,13 @@ const authenticationSlice = createSlice({
         ...payload,
       };
     },
-    [authenticateUser.rejected]: (state, { payload: { message } }) => {
+    [authenticateUser.rejected]: (state, { payload }) => {
       return {
         ...state,
         isAuthenticationInProgress: false,
         authenticationMessage: {
           success: false,
-          text: message,
+          text: payload.message ? payload.message : payload,
         },
       };
     },
@@ -60,5 +73,6 @@ const authenticationSlice = createSlice({
 });
 
 const { reducer: authenticationReducer } = authenticationSlice;
+const { setFormMessage } = authenticationSlice.actions;
 
-export { authenticationReducer, authenticateUser };
+export { authenticationReducer, setFormMessage, authenticateUser };

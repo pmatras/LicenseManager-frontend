@@ -4,6 +4,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import store from './redux/configureStore';
 import RegisterPage from './views/registerPage';
+import LoginPage from './views/loginPage';
 
 const App = () => {
   return (
@@ -13,7 +14,10 @@ const App = () => {
           <Route exact path="/register">
             <RegisterPage />
           </Route>
-          <Route render={() => <Redirect to="/register" />} />
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+          <Route render={() => <Redirect to="/login" />} />
         </Switch>
       </BrowserRouter>
     </Provider>
