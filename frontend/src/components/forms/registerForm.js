@@ -207,10 +207,10 @@ RegisterForm.propTypes = {
   setFormErrorMessage: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  isRegistrationInProgress: state.isRegistrationInProgress,
-  registrationMessage: state.registrationMessage,
-  registrationErrorMessage: state.registrationErrorMessage,
+const mapStateToProps = ({ registration }) => ({
+  isRegistrationInProgress: registration.isRegistrationInProgress,
+  registrationMessage: registration.registrationMessage,
+  registrationErrorMessage: registration.registrationErrorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
