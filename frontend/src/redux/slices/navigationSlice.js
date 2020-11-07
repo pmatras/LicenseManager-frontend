@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isMenuDocked: true,
-  isMenuOpened: true,
+  isMenuDocked: false,
+  isMenuOpened: false,
 };
 
 const navigationSlice = createSlice({
