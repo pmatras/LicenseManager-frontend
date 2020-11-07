@@ -15,7 +15,9 @@ const registerUser = createAsyncThunk(
     return axios
       .post('/api/auth/register', registrationData)
       .then((response) => response.data)
-      .catch((error) => rejectWithValue(error.response.data));
+      .catch((error) =>
+        rejectWithValue(error.response ? error.response.data : error.message)
+      );
   }
 );
 
@@ -50,13 +52,13 @@ const registrationSlice = createSlice({
         },
       };
     },
-    [registerUser.rejected]: (state, { payload: { message } }) => {
+    [registerUser.rejected]: (state, { payload }) => {
       return {
         ...state,
         isRegistrationInProgress: false,
         registrationMessage: {
           success: false,
-          text: message,
+          text: payload.message ? payload.message : payload,
         },
       };
     },
