@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import HomePage from '../views/homePage';
 import LoginPage from '../views/loginPage';
 import RegisterPage from '../views/registerPage';
 
@@ -10,7 +11,7 @@ const RoutesProtector = ({ isAuthenticated }) => {
   return isAuthenticated ? (
     <Switch>
       <Route path="/home">
-        <div></div>
+        <HomePage />
       </Route>
       <Route render={() => <Redirect to="/home" />} />
     </Switch>
