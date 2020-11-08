@@ -33,6 +33,11 @@ const HeaderNavigation = ({ isMenuOpened, isMenuDocked, toggleMenu }) => {
           </EuiHeaderLogo>
         </EuiHeaderSectionItem>
       </EuiHeaderSection>
+      <EuiHeaderSection side="right" grow={false}>
+        <EuiHeaderSectionItem border="left" style={padding}>
+          <EuiHeaderLogo iconType="gear" onClick={(e) => e.preventDefault()} />
+        </EuiHeaderSectionItem>
+      </EuiHeaderSection>
     </EuiHeader>
   );
 };
