@@ -74,7 +74,6 @@ const UserMenu = ({
           <EuiFlexGroup>
             <EuiFlexItem>
               <EuiButtonEmpty
-                size="m"
                 flush="left"
                 iconSide="left"
                 iconType="documentEdit"
@@ -85,7 +84,6 @@ const UserMenu = ({
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
               <EuiButtonEmpty
-                size="m"
                 flush="right"
                 iconSide="right"
                 iconType="push"
