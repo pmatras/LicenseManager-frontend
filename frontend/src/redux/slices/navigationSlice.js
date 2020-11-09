@@ -9,6 +9,7 @@ const initialState = {
   isMenuDocked: false,
   isMenuOpened: false,
   areSettingsOpened: false,
+  isUserMenuOpened: false,
   selectedTheme: getThemePreference(),
 };
 
@@ -46,6 +47,18 @@ const navigationSlice = createSlice({
         areSettingsOpened: !state.areSettingsOpened,
       };
     },
+    closeUserMenu: (state) => {
+      return {
+        ...state,
+        isUserMenuOpened: false,
+      };
+    },
+    toggleUserMenu: (state) => {
+      return {
+        ...state,
+        isUserMenuOpened: !state.isUserMenuOpened,
+      };
+    },
     selectTheme: (state, { payload }) => {
       changeThemePreference(payload);
       return {
@@ -64,6 +77,8 @@ const {
     toggleMenuDock,
     closeSettings,
     toggleSettings,
+    closeUserMenu,
+    toggleUserMenu,
     selectTheme,
   },
 } = navigationSlice;
@@ -75,5 +90,7 @@ export {
   toggleMenuDock,
   closeSettings,
   toggleSettings,
+  closeUserMenu,
+  toggleUserMenu,
   selectTheme,
 };

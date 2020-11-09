@@ -9,6 +9,8 @@ const initialState = {
     text: '',
   },
   authorizationToken: '',
+  logoutInProgress: false,
+  logoutMessage: '',
   user: {
     username: '',
     firstName: '',
@@ -29,6 +31,15 @@ const authenticateUser = createAsyncThunk(
       );
   }
 );
+
+const logoutUser = createAsyncThunk('user/logout', (_, { rejectWithValue }) => {
+  return axios
+    .post('/api/auth/logout')
+    .then(({ data }) => data)
+    .catch((error) =>
+      rejectWithValue(error.response ? error.response.data : error.message)
+    );
+});
 
 const authenticationSlice = createSlice({
   name: 'authentication',
@@ -69,10 +80,48 @@ const authenticationSlice = createSlice({
         },
       };
     },
+    [logoutUser.pending]: (state) => {
+      return {
+        ...state,
+        logoutInProgress: true,
+      };
+    },
+    [logoutUser.fulfilled]: (state, { payload: { message } }) => {
+      return {
+        ...state,
+        logoutInProgress: false,
+        logoutMessage: message,
+        isAuthenticated: false,
+        authorizationToken: '',
+        user: {
+          username: '',
+          firstName: '',
+          lastName: '',
+          roles: [],
+          privileges: [],
+        },
+      };
+    },
+    [logoutUser.rejected]: (state) => {
+      return {
+        ...state,
+        logoutInProgress: false,
+        logoutMessage: '',
+        isAuthenticated: false,
+        authorizationToken: '',
+        user: {
+          username: '',
+          firstName: '',
+          lastName: '',
+          roles: [],
+          privileges: [],
+        },
+      };
+    },
   },
 });
 
 const { reducer: authenticationReducer } = authenticationSlice;
 const { setFormMessage } = authenticationSlice.actions;
 
-export { authenticationReducer, setFormMessage, authenticateUser };
+export { authenticationReducer, setFormMessage, authenticateUser, logoutUser };
