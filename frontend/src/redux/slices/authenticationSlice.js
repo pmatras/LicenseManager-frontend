@@ -9,7 +9,7 @@ const initialState = {
     text: '',
   },
   authorizationToken: '',
-  logoutInProgress: false,
+  isLogoutInProgress: false,
   logoutMessage: '',
   user: {
     username: '',
@@ -83,13 +83,13 @@ const authenticationSlice = createSlice({
     [logoutUser.pending]: (state) => {
       return {
         ...state,
-        logoutInProgress: true,
+        isLogoutInProgress: true,
       };
     },
     [logoutUser.fulfilled]: (state, { payload: { message } }) => {
       return {
         ...state,
-        logoutInProgress: false,
+        isLogoutInProgress: false,
         logoutMessage: message,
         isAuthenticated: false,
         authorizationToken: '',
@@ -105,7 +105,7 @@ const authenticationSlice = createSlice({
     [logoutUser.rejected]: (state) => {
       return {
         ...state,
-        logoutInProgress: false,
+        isLogoutInProgress: false,
         logoutMessage: '',
         isAuthenticated: false,
         authorizationToken: '',
