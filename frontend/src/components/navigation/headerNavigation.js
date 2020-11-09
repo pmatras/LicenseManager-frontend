@@ -13,6 +13,7 @@ import {
 import icon from '../../icon.svg';
 import { toggleMenu } from '../../redux/slices/navigationSlice';
 import HeaderBreadcrumbs from './headerBreadcrumbs';
+import ThemeSwitcher from './themeSwitcher';
 
 const HeaderNavigation = ({ isMenuOpened, isMenuDocked, toggleMenu }) => {
   const padding = { paddingRight: '10px', paddingLeft: '10px' };
@@ -37,7 +38,7 @@ const HeaderNavigation = ({ isMenuOpened, isMenuDocked, toggleMenu }) => {
       <HeaderBreadcrumbs />
       <EuiHeaderSection side="right" grow={false}>
         <EuiHeaderSectionItem border="left" style={padding}>
-          <EuiHeaderLogo iconType="gear" onClick={(e) => e.preventDefault()} />
+          <ThemeSwitcher />
         </EuiHeaderSectionItem>
       </EuiHeaderSection>
     </EuiHeader>

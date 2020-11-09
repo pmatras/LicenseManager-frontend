@@ -1,8 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import {
+  getThemePreference,
+  changeThemePreference,
+} from '../../common/themeUtils';
+
 const initialState = {
   isMenuDocked: false,
   isMenuOpened: false,
+  areSettingsOpened: false,
+  selectedTheme: getThemePreference(),
 };
 
 const navigationSlice = createSlice({
@@ -27,12 +34,46 @@ const navigationSlice = createSlice({
         isMenuDocked: !state.isMenuDocked,
       };
     },
+    closeSettings: (state) => {
+      return {
+        ...state,
+        areSettingsOpened: false,
+      };
+    },
+    toggleSettings: (state) => {
+      return {
+        ...state,
+        areSettingsOpened: !state.areSettingsOpened,
+      };
+    },
+    selectTheme: (state, { payload }) => {
+      changeThemePreference(payload);
+      return {
+        ...state,
+        selectedTheme: payload,
+      };
+    },
   },
 });
 
 const {
   reducer: navigationReducer,
-  actions: { closeMenu, toggleMenu, toggleMenuDock },
+  actions: {
+    closeMenu,
+    toggleMenu,
+    toggleMenuDock,
+    closeSettings,
+    toggleSettings,
+    selectTheme,
+  },
 } = navigationSlice;
 
-export { navigationReducer, closeMenu, toggleMenu, toggleMenuDock };
+export {
+  navigationReducer,
+  closeMenu,
+  toggleMenu,
+  toggleMenuDock,
+  closeSettings,
+  toggleSettings,
+  selectTheme,
+};
