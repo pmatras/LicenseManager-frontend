@@ -2,10 +2,7 @@ import React, { StrictMode } from 'react';
 import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 
-import '@elastic/eui/dist/eui_theme_dark.css';
-//import '@elastic/eui/dist/eui_theme_light.css';
-//import '@elastic/eui/dist/eui_theme_amsterdam_dark.css';
-//import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
+import './fixedHeader.scss';
 
 import App from './app';
 

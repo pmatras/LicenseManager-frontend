@@ -1,0 +1,6 @@
+@import '@elastic/eui/src/global_styling/variables';
+@import '@elastic/eui/src/global_styling/mixins';
+
+body {
+  @include euiHeaderAffordForFixed;
+}

@@ -8,4 +8,12 @@ const axiosInstance = axios.create({
   xsrfHeaderName: 'X-XSRF-TOKEN',
 });
 
+const setAxiosAuthToken = (authorizationToken) => {
+  axiosInstance.defaults.headers.common[
+    'Authorization'
+  ] = `Bearer ${authorizationToken}`;
+};
+
+export { setAxiosAuthToken };
+
 export default axiosInstance;
