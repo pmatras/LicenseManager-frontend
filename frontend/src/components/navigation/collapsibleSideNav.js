@@ -64,7 +64,7 @@ const renderNavigationItems = (navigationRoutes) =>
       iconType={icon}
       paddingSize="xs"
       iconSize="xl"
-      title={<EuiText color="text">{title}</EuiText>}
+      title={<EuiText>{title}</EuiText>}
       isCollapsible={subMenu.length !== 0}
     >
       <EuiListGroup gutterSize="s" size="l">
