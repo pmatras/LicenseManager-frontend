@@ -12,11 +12,13 @@ import {
   EuiPageHeader,
 } from '@elastic/eui';
 import HeaderNavigation from '../components/navigation/headerNavigation';
+import CollapsibleSideNav from '../components/navigation/collapsibleSideNav';
 
 const HomePage = () => {
   return (
     <Fragment>
       <HeaderNavigation />
+      <CollapsibleSideNav />
       <EuiPage style={{ height: '100vh' }} restrictWidth>
         <EuiPageBody component="div">
           <EuiPageHeader>
