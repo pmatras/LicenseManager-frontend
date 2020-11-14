@@ -13,6 +13,7 @@ import {
 } from '@elastic/eui';
 import HeaderNavigation from '../components/navigation/headerNavigation';
 import CollapsibleSideNav from '../components/navigation/collapsibleSideNav';
+import ToastList from '../components/navigation/toastList';
 
 const HomePage = () => {
   return (
@@ -44,6 +45,7 @@ const HomePage = () => {
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
+      <ToastList />
     </Fragment>
   );
 };

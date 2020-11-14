@@ -11,6 +11,7 @@ const initialState = {
   areSettingsOpened: false,
   isUserMenuOpened: false,
   selectedTheme: getThemePreference(),
+  toastsList: [],
 };
 
 const navigationSlice = createSlice({
@@ -66,6 +67,18 @@ const navigationSlice = createSlice({
         selectedTheme: payload,
       };
     },
+    addToast: (state, { payload }) => {
+      return {
+        ...state,
+        toastsList: [...state.toastsList, payload],
+      };
+    },
+    removeToast: (state, { payload }) => {
+      return {
+        ...state,
+        toastsList: state.toastsList.filter(({ id }) => id !== payload),
+      };
+    },
   },
 });
 
@@ -80,6 +93,8 @@ const {
     closeUserMenu,
     toggleUserMenu,
     selectTheme,
+    addToast,
+    removeToast,
   },
 } = navigationSlice;
 
@@ -93,4 +108,6 @@ export {
   closeUserMenu,
   toggleUserMenu,
   selectTheme,
+  addToast,
+  removeToast,
 };
