@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from '../../../common/axios';
 
 import { EuiInMemoryTable, EuiHealth, EuiButton } from '@elastic/eui';
+
+import ConfirmModal from '../../modals/confirmModal';
+import ActivateUserForm from '../../forms/activateUserForm';
 import {
   createDangerToast,
   createSuccessToast,
@@ -10,6 +13,11 @@ import {
 const UsersActivationTab = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pendingUsersList, setPendingUsersList] = useState([]);
+  const [isActivationModalVisible, setIsActivationModalVisible] = useState(
+    false
+  );
+  const [userToActivate, setUserToActivate] = useState({});
+  const [selectedRoles, setSelectedRoles] = useState([]);
 
   useEffect(() => {
     getPendingUsersList();
@@ -48,6 +56,35 @@ const UsersActivationTab = () => {
       );
   };
 
+  const closeActivationModal = () => {
+    setIsActivationModalVisible(false);
+    setUserToActivate({});
+    setSelectedRoles([]);
+  };
+
+  const showActivationModal = (user) => {
+    setIsActivationModalVisible(true);
+    setUserToActivate(user);
+  };
+
+  const activateUser = () => {
+    const { id: userId } = userToActivate;
+    const roles = selectedRoles.map(({ label }) => label);
+    axios
+      .post('/api/admin/activate_user', { userId, roles })
+      .then(({ data }) => {
+        createSuccessToast('Success', data.message);
+        getPendingUsersList();
+      })
+      .catch((error) =>
+        createDangerToast(
+          'Error',
+          error.response ? error.response.data.message : error.message
+        )
+      );
+    closeActivationModal();
+  };
+
   const renderToolsRight = () => (
     <EuiButton
       color="secondary"
@@ -60,6 +97,13 @@ const UsersActivationTab = () => {
   );
 
   const actions = [
+    {
+      name: 'Activate pending user',
+      description: `Activate pending user's account`,
+      icon: 'check',
+      type: 'icon',
+      onClick: showActivationModal,
+    },
     {
       name: 'Delete pending user',
       description: `Delete pending user's account`,
@@ -111,22 +155,40 @@ const UsersActivationTab = () => {
     },
   ];
 
-  return (
-    <EuiInMemoryTable
-      itemId="id"
-      items={pendingUsersList}
-      noItemsMessage="No users found"
-      columns={columns}
-      loading={isLoading}
-      pagination
-      search={{
-        toolsRight: renderToolsRight(),
-        box: {
-          incremental: true,
-        },
-      }}
-      sorting
+  const userActivationModal = isActivationModalVisible ? (
+    <ConfirmModal
+      title={'Activate user'}
+      content={
+        <ActivateUserForm
+          user={userToActivate}
+          selectedRoles={selectedRoles}
+          selectRoles={setSelectedRoles}
+        />
+      }
+      closeModal={closeActivationModal}
+      confirmModal={activateUser}
     />
+  ) : null;
+
+  return (
+    <Fragment>
+      {userActivationModal}
+      <EuiInMemoryTable
+        itemId="id"
+        items={pendingUsersList}
+        noItemsMessage="No users found"
+        columns={columns}
+        loading={isLoading}
+        pagination
+        search={{
+          toolsRight: renderToolsRight(),
+          box: {
+            incremental: true,
+          },
+        }}
+        sorting
+      />
+    </Fragment>
   );
 };
 
