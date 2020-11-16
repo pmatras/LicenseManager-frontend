@@ -134,13 +134,12 @@ const UsersActivationTab = () => {
       name: 'E-mail',
     },
     {
-      field: 'isActive',
-      name: 'Account enabled',
+      field: 'emailConfirmed',
+      name: 'Email Confirmed',
       sortable: true,
-
-      render: (isActive) => (
-        <EuiHealth color={isActive ? 'success' : 'danger'}>
-          {isActive ? 'Enabled' : 'Disabled'}
+      render: (emailConfirmed) => (
+        <EuiHealth color={emailConfirmed ? 'success' : 'danger'}>
+          {emailConfirmed ? 'Confirmed' : 'Not Confirmed'}
         </EuiHealth>
       ),
     },
