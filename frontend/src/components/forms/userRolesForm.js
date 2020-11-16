@@ -2,7 +2,12 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from '../../common/axios';
 
-import { EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from '@elastic/eui';
+import {
+  EuiComboBox,
+  EuiDescriptionList,
+  EuiFormRow,
+  EuiSpacer,
+} from '@elastic/eui';
 
 import { createDangerToast } from '../../common/toastsUtils';
 
@@ -35,11 +40,24 @@ const UserRolesForm = ({ user, selectedRoles, selectRoles }) => {
   };
 
   const { firstName, lastName, username } = user;
+  const userDescriptionList = [
+    {
+      title: 'First Name',
+      description: firstName,
+    },
+    {
+      title: 'Last Name',
+      description: lastName,
+    },
+    {
+      title: 'Username',
+      description: username,
+    },
+  ];
+
   return (
     <Fragment>
-      <EuiText grow={false} textAlign="left">
-        {`User: ${firstName} ${lastName} with username ${username}`}
-      </EuiText>
+      <EuiDescriptionList listItems={userDescriptionList} compressed />
       <EuiSpacer size="xl" />
       <EuiFormRow>
         <EuiComboBox
