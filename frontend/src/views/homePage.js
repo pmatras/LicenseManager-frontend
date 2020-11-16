@@ -41,7 +41,7 @@ const HomePage = ({ userRoles }) => {
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>Page abilities</EuiPageHeaderSection>
           </EuiPageHeader>
-          <EuiPageContent style={{ height: '100vh', width: '100%' }}>
+          <EuiPageContent>
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
                 <EuiTitle>
