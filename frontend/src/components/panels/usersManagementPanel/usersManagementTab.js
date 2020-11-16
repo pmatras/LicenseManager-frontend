@@ -1,15 +1,20 @@
 import { EuiButton, EuiHealth, EuiInMemoryTable } from '@elastic/eui';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from '../../../common/axios';
 
 import {
   createSuccessToast,
   createDangerToast,
 } from '../../../common/toastsUtils';
+import UserRolesForm from '../../forms/userRolesForm';
+import ConfirmModal from '../../modals/confirmModal';
 
 const UsersManagementTab = () => {
   const [usersList, setUsersList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [userToEdit, setUserToEdit] = useState({});
+  const [selectedRoles, setSelectedRoles] = useState([]);
 
   useEffect(() => {
     getUsersList();
@@ -64,6 +69,35 @@ const UsersManagementTab = () => {
       );
   };
 
+  const showEditModal = (user) => {
+    setIsEditModalVisible(true);
+    setUserToEdit(user);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalVisible(false);
+    setUserToEdit({});
+    setSelectedRoles([]);
+  };
+
+  const editUser = () => {
+    const { id: userId } = userToEdit;
+    const roles = selectedRoles.map(({ label }) => label);
+
+    axios
+      .put('/api/admin/edit_user_roles', { userId, roles })
+      .then(({ data }) => {
+        createSuccessToast('Success', data.message);
+        getUsersList();
+      })
+      .catch((error) =>
+        createDangerToast(
+          'Error',
+          error.response ? error.response.data.message : error.message
+        )
+      );
+  };
+
   const renderToolsRight = () => (
     <EuiButton
       color="secondary"
@@ -90,6 +124,13 @@ const UsersManagementTab = () => {
       type: 'icon',
       onClick: unlockUserAccount,
       available: ({ isActive }) => !isActive,
+    },
+    {
+      name: 'Edit user',
+      description: `Edit user's roles`,
+      icon: 'documentEdit',
+      type: 'icon',
+      onClick: showEditModal,
     },
   ];
 
@@ -135,22 +176,56 @@ const UsersManagementTab = () => {
     },
   ];
 
-  return (
-    <EuiInMemoryTable
-      itemId="id"
-      items={usersList}
-      noItemsMessage="No users found"
-      columns={columns}
-      loading={isLoading}
-      pagination
-      search={{
-        toolsRight: renderToolsRight(),
-        box: {
-          incremental: true,
-        },
-      }}
-      sorting
+  const editUserModal = isEditModalVisible ? (
+    <ConfirmModal
+      title="Edit user"
+      content={
+        <UserRolesForm
+          user={userToEdit}
+          selectedRoles={selectedRoles}
+          selectRoles={setSelectedRoles}
+        />
+      }
+      closeModal={closeEditModal}
+      confirmModal={editUser}
     />
+  ) : null;
+
+  return (
+    <Fragment>
+      {editUserModal}
+      <EuiInMemoryTable
+        itemId="id"
+        items={usersList}
+        noItemsMessage="No users found"
+        columns={columns}
+        loading={isLoading}
+        pagination
+        search={{
+          toolsRight: renderToolsRight(),
+          box: {
+            incremental: true,
+          },
+          filters: [
+            {
+              type: 'field_value_toggle_group',
+              field: 'isActive',
+              items: [
+                {
+                  value: true,
+                  name: 'Enabled',
+                },
+                {
+                  value: false,
+                  name: 'Disabled',
+                },
+              ],
+            },
+          ],
+        }}
+        sorting
+      />
+    </Fragment>
   );
 };
 
