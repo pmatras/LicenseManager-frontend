@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   baseURL: SERVER_URL,
   xsrfCookieName: 'XSRF-TOKEN',
   xsrfHeaderName: 'X-XSRF-TOKEN',
+  withCredentials: true,
 });
 
 const setAxiosAuthToken = (authorizationToken) => {
