@@ -6,7 +6,7 @@ import { EuiComboBox, EuiFormRow, EuiSpacer, EuiText } from '@elastic/eui';
 
 import { createDangerToast } from '../../common/toastsUtils';
 
-const ActivateUserForm = ({ user, selectedRoles, selectRoles }) => {
+const UserRolesForm = ({ user, selectedRoles, selectRoles }) => {
   const [rolesList, setRolesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,10 +55,10 @@ const ActivateUserForm = ({ user, selectedRoles, selectRoles }) => {
   );
 };
 
-ActivateUserForm.propTypes = {
+UserRolesForm.propTypes = {
   user: PropTypes.object.isRequired,
   selectedRoles: PropTypes.array.isRequired,
   selectRoles: PropTypes.func.isRequired,
 };
 
-export default ActivateUserForm;
+export default UserRolesForm;

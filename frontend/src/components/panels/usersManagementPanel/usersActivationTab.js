@@ -4,7 +4,7 @@ import axios from '../../../common/axios';
 import { EuiInMemoryTable, EuiHealth, EuiButton } from '@elastic/eui';
 
 import ConfirmModal from '../../modals/confirmModal';
-import ActivateUserForm from '../../forms/activateUserForm';
+import UserRolesForm from '../../forms/userRolesForm';
 import {
   createDangerToast,
   createSuccessToast,
@@ -159,7 +159,7 @@ const UsersActivationTab = () => {
     <ConfirmModal
       title={'Activate user'}
       content={
-        <ActivateUserForm
+        <UserRolesForm
           user={userToActivate}
           selectedRoles={selectedRoles}
           selectRoles={setSelectedRoles}
