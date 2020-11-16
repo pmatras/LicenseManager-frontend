@@ -1,6 +1,14 @@
-import { EuiButton, EuiHealth, EuiInMemoryTable } from '@elastic/eui';
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from '../../../common/axios';
+
+import {
+  EuiButton,
+  EuiButtonIcon,
+  EuiDescriptionList,
+  EuiHealth,
+  EuiInMemoryTable,
+  RIGHT_ALIGNMENT,
+} from '@elastic/eui';
 
 import {
   createSuccessToast,
@@ -11,6 +19,7 @@ import ConfirmModal from '../../modals/confirmModal';
 
 const UsersManagementTab = () => {
   const [usersList, setUsersList] = useState([]);
+  const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [userToEdit, setUserToEdit] = useState({});
@@ -37,6 +46,11 @@ const UsersManagementTab = () => {
           error.response ? error.response.message : error.message
         );
       });
+  };
+
+  const refreshList = () => {
+    getUsersList();
+    setItemIdToExpandedRowMap({});
   };
 
   const lockUserAccount = ({ id }) => {
@@ -98,12 +112,47 @@ const UsersManagementTab = () => {
       );
   };
 
+  const toggleUserDetails = (user) => {
+    const itemIdToExpandedRowMapValues = { ...itemIdToExpandedRowMap };
+    if (itemIdToExpandedRowMapValues[user.id]) {
+      delete itemIdToExpandedRowMapValues[user.id];
+    } else {
+      let { roles, emailConfirmed, lastEditTime } = user;
+      roles = roles.map(({ name }) => name).join(', ');
+
+      const listItems = [
+        {
+          title: 'Roles',
+          description: roles,
+        },
+        {
+          title: 'E-mail Confirmed',
+          description: (
+            <EuiHealth color={emailConfirmed ? 'success' : 'danger'}>
+              {emailConfirmed ? 'Confirmed' : 'Not Confirmed'}
+            </EuiHealth>
+          ),
+        },
+        {
+          title: 'Last Edit Time',
+          description: lastEditTime || 'N/A',
+        },
+      ];
+
+      itemIdToExpandedRowMapValues[user.id] = (
+        <EuiDescriptionList listItems={listItems} compressed />
+      );
+    }
+
+    setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
+  };
+
   const renderToolsRight = () => (
     <EuiButton
       color="secondary"
       iconType="refresh"
       iconSide="right"
-      onClick={getUsersList}
+      onClick={refreshList}
     >
       Refresh
     </EuiButton>
@@ -114,6 +163,7 @@ const UsersManagementTab = () => {
       description: `Lock user's account`,
       icon: 'lock',
       type: 'icon',
+      isPrimary: true,
       onClick: lockUserAccount,
       available: ({ isActive }) => isActive,
     },
@@ -122,6 +172,7 @@ const UsersManagementTab = () => {
       description: `Unlock user's account`,
       icon: 'lockOpen',
       type: 'icon',
+      isPrimary: true,
       onClick: unlockUserAccount,
       available: ({ isActive }) => !isActive,
     },
@@ -130,6 +181,7 @@ const UsersManagementTab = () => {
       description: `Edit user's roles`,
       icon: 'documentEdit',
       type: 'icon',
+      isPrimary: true,
       onClick: showEditModal,
     },
   ];
@@ -174,6 +226,18 @@ const UsersManagementTab = () => {
       field: 'Actions',
       actions: actions,
     },
+    {
+      align: RIGHT_ALIGNMENT,
+      width: '40px',
+      isExpander: true,
+      render: (user) => (
+        <EuiButtonIcon
+          onClick={() => toggleUserDetails(user)}
+          aria-label={itemIdToExpandedRowMap[user.id] ? 'Collapse' : 'Expand'}
+          iconType={itemIdToExpandedRowMap[user.id] ? 'arrowUp' : 'arrowDown'}
+        />
+      ),
+    },
   ];
 
   const editUserModal = isEditModalVisible ? (
@@ -197,6 +261,8 @@ const UsersManagementTab = () => {
       <EuiInMemoryTable
         itemId="id"
         items={usersList}
+        itemIdToExpandedRowMap={itemIdToExpandedRowMap}
+        isExpandable
         noItemsMessage="No users found"
         columns={columns}
         loading={isLoading}
