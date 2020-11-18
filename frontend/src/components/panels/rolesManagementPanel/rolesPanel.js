@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 
+import RolesManagementTab from './rolesManagementTab';
 import CreateRoleTab from './createRoleTab';
 
 const RolesPanel = () => {
@@ -8,7 +9,12 @@ const RolesPanel = () => {
     {
       id: 'roles-management',
       name: 'Roles Management',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <RolesManagementTab />
+        </Fragment>
+      ),
     },
     {
       id: 'roles-create',
