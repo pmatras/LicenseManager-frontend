@@ -5,8 +5,14 @@ const createSuccessToast = (title, text) => {
   addToastToList(title, text, 'success');
 };
 
-const createDangerToast = (title, text) => {
-  addToastToList(title, text, 'danger');
+const createDangerToast = (title, error) => {
+  addToastToList(
+    title,
+    error.response
+      ? error.response.data.message || error.response.data.error
+      : error.message,
+    'danger'
+  );
 };
 
 const createWarningToast = (title, text) => {
