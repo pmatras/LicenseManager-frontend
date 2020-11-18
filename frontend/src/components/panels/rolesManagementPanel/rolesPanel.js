@@ -1,5 +1,7 @@
-import React from 'react';
-import { EuiTabbedContent } from '@elastic/eui';
+import React, { Fragment } from 'react';
+import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
+
+import CreateRoleTab from './createRoleTab';
 
 const RolesPanel = () => {
   const tabs = [
@@ -11,7 +13,12 @@ const RolesPanel = () => {
     {
       id: 'roles-create',
       name: 'Create Role',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <CreateRoleTab />
+        </Fragment>
+      ),
     },
   ];
   return <EuiTabbedContent tabs={tabs} autoFocus="selected" />;
