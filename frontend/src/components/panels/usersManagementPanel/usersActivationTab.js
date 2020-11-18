@@ -43,7 +43,7 @@ const UsersActivationTab = () => {
 
   const deletePendingUser = ({ id }) => {
     axios
-      .post(`/api/admin/delete_pending_user?user_id=${id}`)
+      .delete(`/api/admin/delete_pending_user?user_id=${id}`)
       .then(({ data }) => {
         createSuccessToast('Success', data.message);
         getPendingUsersList();
