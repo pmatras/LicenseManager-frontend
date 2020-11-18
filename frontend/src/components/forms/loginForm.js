@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -11,17 +12,16 @@ import icon from '../../icon.svg';
 
 import {
   EuiButton,
-  EuiCallOut,
   EuiFieldPassword,
   EuiFieldText,
   EuiFlexGroup,
   EuiFlexItem,
+  EuiForm,
   EuiFormRow,
   EuiIcon,
   EuiSpacer,
   EuiText,
 } from '@elastic/eui';
-import { connect } from 'react-redux';
 
 const LoginForm = ({
   isAuthenticationInProgress,
@@ -57,73 +57,66 @@ const LoginForm = ({
 
   return (
     <Fragment>
-      <EuiFlexGroup grow="false" justifyContent="center">
-        <EuiFlexItem>
-          <EuiIcon
-            type={icon}
-            size="original"
-            style={{
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              maxWidth: '40%',
-            }}
-          />
-        </EuiFlexItem>
-      </EuiFlexGroup>
+      <EuiIcon
+        type={icon}
+        size="original"
+        style={{
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          maxWidth: '40%',
+        }}
+      />
       <EuiSpacer size="xl" />
-      {text !== '' && (
-        <EuiFormRow fullWidth>
-          <EuiCallOut
-            title={text}
-            color={success ? 'success' : 'danger'}
-            iconType="alert"
+      <EuiForm component="form" error={text} isInvalid={!success}>
+        <EuiFormRow fullWidth label="Username">
+          <EuiFieldText
+            name="username"
+            placeholder="Enter your username"
+            value={credentials.username}
+            onChange={formHandler}
+            isInvalid={!success}
           />
         </EuiFormRow>
-      )}
-      <EuiFormRow fullWidth label="Username">
-        <EuiFieldText
-          name="username"
-          placeholder="Enter your username"
-          value={credentials.username}
-          onChange={formHandler}
-          isInvalid={!success}
-        />
-      </EuiFormRow>
-      <EuiSpacer size="xl" />
-      <EuiFormRow fullWidth label="Password">
-        <EuiFieldPassword
-          name="password"
-          fullWidth
-          placeholder="Enter your password"
-          value={credentials.password}
-          type="dual"
-          onChange={formHandler}
-          isInvalid={!success}
-        />
-      </EuiFormRow>
-      <EuiSpacer size="xl" />
-      <EuiSpacer size="xl" />
-      <EuiFlexGroup alignItems="center" justifyContent="center">
-        <EuiButton
-          fill
-          size="m"
-          onClick={() => {
-            submitLoginRequest();
-          }}
-          minWidth="50%"
-          isLoading={isAuthenticationInProgress}
+        <EuiFormRow fullWidth label="Password">
+          <EuiFieldPassword
+            name="password"
+            fullWidth
+            placeholder="Enter your password"
+            value={credentials.password}
+            type="dual"
+            onChange={formHandler}
+            isInvalid={!success}
+          />
+        </EuiFormRow>
+        <EuiSpacer size="xl" />
+        <EuiSpacer size="xl" />
+        <EuiFlexGroup
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
         >
-          Log in
-        </EuiButton>
-      </EuiFlexGroup>
-      <EuiSpacer size="xl" />
-      <EuiSpacer size="xl" />
-      <EuiFlexGroup alignItems="center" justifyContent="center">
-        <EuiText>
-          Doesn&apos;t have an account? <Link to="/register">Sign up</Link>
-        </EuiText>
-      </EuiFlexGroup>
+          <EuiButton
+            fill
+            size="m"
+            type="submit"
+            onClick={() => {
+              submitLoginRequest();
+            }}
+            minWidth="50%"
+            isLoading={isAuthenticationInProgress}
+          >
+            Log in
+          </EuiButton>
+          <EuiSpacer size="xl" />
+          <EuiSpacer size="xl" />
+          <EuiFlexItem>
+            <EuiText>
+              Don&apos;t have an account? <Link to="/register">Sign up</Link>
+            </EuiText>
+          </EuiFlexItem>
+        </EuiFlexGroup>
+      </EuiForm>
     </Fragment>
   );
 };
