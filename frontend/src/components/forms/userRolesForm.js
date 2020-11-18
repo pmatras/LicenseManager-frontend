@@ -30,7 +30,7 @@ const UserRolesForm = ({ user, selectedRoles, selectRoles }) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        createDangerToast('Error', error.message);
+        createDangerToast('Error', error);
         setIsLoading(false);
       });
   };

@@ -41,10 +41,7 @@ const UsersManagementTab = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        createDangerToast(
-          'Error',
-          error.response ? error.response.message : error.message
-        );
+        createDangerToast('Error', error);
       });
   };
 
@@ -60,12 +57,7 @@ const UsersManagementTab = () => {
         createSuccessToast('Success', data.message);
         getUsersList();
       })
-      .catch((error) =>
-        createDangerToast(
-          'Error',
-          error.response ? error.response.message : error.message
-        )
-      );
+      .catch((error) => createDangerToast('Error', error));
   };
 
   const unlockUserAccount = ({ id }) => {
@@ -75,12 +67,7 @@ const UsersManagementTab = () => {
         createSuccessToast('Success', data.message);
         getUsersList();
       })
-      .catch((error) =>
-        createDangerToast(
-          'Error',
-          error.response ? error.response.message : error.message
-        )
-      );
+      .catch((error) => createDangerToast('Error', error));
   };
 
   const showEditModal = (user) => {
@@ -104,12 +91,7 @@ const UsersManagementTab = () => {
         createSuccessToast('Success', data.message);
         getUsersList();
       })
-      .catch((error) =>
-        createDangerToast(
-          'Error',
-          error.response ? error.response.data.message : error.message
-        )
-      );
+      .catch((error) => createDangerToast('Error', error));
   };
 
   const toggleUserDetails = (user) => {

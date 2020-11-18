@@ -33,10 +33,7 @@ const UsersActivationTab = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        createDangerToast(
-          'Error',
-          error.response ? error.response.message : error.message
-        );
+        createDangerToast('Error', error);
         setIsLoading(false);
       });
   };
@@ -48,12 +45,7 @@ const UsersActivationTab = () => {
         createSuccessToast('Success', data.message);
         getPendingUsersList();
       })
-      .catch((error) =>
-        createDangerToast(
-          'Error',
-          error.response ? error.response.message : error.message
-        )
-      );
+      .catch((error) => createDangerToast('Error', error));
   };
 
   const closeActivationModal = () => {
@@ -76,12 +68,7 @@ const UsersActivationTab = () => {
         createSuccessToast('Success', data.message);
         getPendingUsersList();
       })
-      .catch((error) =>
-        createDangerToast(
-          'Error',
-          error.response ? error.response.data.message : error.message
-        )
-      );
+      .catch((error) => createDangerToast('Error', error));
     closeActivationModal();
   };
 
