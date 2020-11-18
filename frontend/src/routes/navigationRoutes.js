@@ -1,4 +1,5 @@
 import { licensesIcon, settingsIcon, securityIcon } from '../assets/icons';
+import RolesPanel from '../components/panels/rolesManagementPanel/rolesPanel';
 import UsersPanel from '../components/panels/usersManagementPanel/usersPanel';
 
 const LICENSES_NAV_ROUTE = {
@@ -44,6 +45,7 @@ const SECURITY_NAV_ROUTE = {
       title: 'Roles',
       icon: 'user',
       path: '/roles',
+      component: RolesPanel,
     },
     {
       title: 'Audit logs',
