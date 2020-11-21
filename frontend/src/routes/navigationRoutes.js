@@ -1,4 +1,5 @@
 import { licensesIcon, settingsIcon, securityIcon } from '../assets/icons';
+import CustomersPanel from '../components/panels/customersManagementPanel/customersPanel';
 import RolesPanel from '../components/panels/rolesManagementPanel/rolesPanel';
 import UsersPanel from '../components/panels/usersManagementPanel/usersPanel';
 
@@ -21,6 +22,7 @@ const LICENSES_NAV_ROUTE = {
       title: 'Customers',
       icon: 'users',
       path: '/customers',
+      component: CustomersPanel,
     },
     {
       title: 'Statistics',
