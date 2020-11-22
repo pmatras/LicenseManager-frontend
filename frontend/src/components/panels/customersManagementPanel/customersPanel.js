@@ -1,12 +1,19 @@
-import React from 'react';
-import { EuiTabbedContent } from '@elastic/eui';
+import React, { Fragment } from 'react';
+
+import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
+import CustomersManagementTab from './customersManagementTab';
 
 const CustomersPanel = () => {
   const tabs = [
     {
       id: 'customers-management',
       name: 'Customers Management',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <CustomersManagementTab />
+        </Fragment>
+      ),
     },
     {
       id: 'groups-management',
