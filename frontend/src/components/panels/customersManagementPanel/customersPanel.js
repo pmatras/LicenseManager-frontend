@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 
 import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 import CustomersManagementTab from './customersManagementTab';
+import CreateGroupTab from './createGroupTab';
 
 const CustomersPanel = () => {
   const tabs = [
@@ -28,7 +29,12 @@ const CustomersPanel = () => {
     {
       id: 'groups-create',
       name: 'Create Group',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <CreateGroupTab />
+        </Fragment>
+      ),
     },
   ];
 
