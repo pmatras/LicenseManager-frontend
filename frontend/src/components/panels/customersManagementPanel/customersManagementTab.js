@@ -92,6 +92,7 @@ const CustomersManagementTab = () => {
       field: 'name',
       name: 'Customer',
       sortable: true,
+      footer: ({ items }) => `${items.length} customers`,
     },
     {
       field: 'creationDate',
