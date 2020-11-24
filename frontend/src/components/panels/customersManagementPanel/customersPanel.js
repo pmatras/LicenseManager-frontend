@@ -4,6 +4,7 @@ import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 import CustomersManagementTab from './customersManagementTab';
 import CreateGroupTab from './createGroupTab';
 import CreateCustomerTab from './createCustomerTab';
+import GroupsManagementTab from './groupsManagementTab';
 
 const CustomersPanel = () => {
   const tabs = [
@@ -20,7 +21,12 @@ const CustomersPanel = () => {
     {
       id: 'groups-management',
       name: 'Groups Management',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <GroupsManagementTab />
+        </Fragment>
+      ),
     },
     {
       id: 'customers-create',
