@@ -25,7 +25,7 @@ const CustomersManagementTab = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [customersGroups, setCustomersGroups] = useState([]);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [customerToEdit, setCustomerToEdit] = useState(false);
+  const [customerToEdit, setCustomerToEdit] = useState({});
   const [editedCustomerDetails, setEditedCustomerDetails] = useState({});
 
   useEffect(() => {
@@ -93,6 +93,7 @@ const CustomersManagementTab = () => {
   const closeEditModal = () => {
     setIsEditModalVisible(false);
     setCustomerToEdit({});
+    setEditedCustomerDetails({});
   };
 
   const editCustomer = () => {
