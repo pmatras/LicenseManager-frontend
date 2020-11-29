@@ -159,6 +159,7 @@ const CreateLicenseTemplateTab = () => {
             <EuiFlexItem grow={false}>
               <EuiSelect
                 name="fieldType"
+                hasNoInitialSelection
                 options={supportedFieldTypes}
                 value={fieldDetails.fieldType}
                 onChange={onFieldDetailsChange}
