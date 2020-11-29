@@ -8,6 +8,7 @@ import {
   EuiHeaderSection,
   EuiHeaderSectionItem,
   EuiHeaderLogo,
+  EuiShowFor,
 } from '@elastic/eui';
 
 import icon from '../../icon.svg';
@@ -36,7 +37,9 @@ const HeaderNavigation = ({ isMenuOpened, isMenuDocked, toggleMenu }) => {
           </EuiHeaderLogo>
         </EuiHeaderSectionItem>
       </EuiHeaderSection>
-      <HeaderBreadcrumbs />
+      <EuiShowFor sizes={['l', 'xl']}>
+        <HeaderBreadcrumbs />
+      </EuiShowFor>
       <EuiHeaderSection side="right" grow={false}>
         <EuiHeaderSectionItem border="left" style={padding}>
           <UserMenu />
