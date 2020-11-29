@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 
 import CreateLicenseTemplateTab from './createLicenseTemplateTab';
+import LicenseTemplatesManagementTab from './licenseTemplatesManagementTab';
 
 const LicensesPanel = ({ userRoles }) => {
   const tabs = [
@@ -24,7 +25,12 @@ const LicensesPanel = ({ userRoles }) => {
     tabs.splice(1, 0, {
       id: 'license-templates-management',
       name: 'License Templates Management',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <LicenseTemplatesManagementTab />
+        </Fragment>
+      ),
     });
     tabs.splice(3, 0, {
       id: 'license-templates-create',
