@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { EuiTabbedContent } from '@elastic/eui';
+import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
+
+import CreateLicenseTemplateTab from './createLicenseTemplateTab';
 
 const LicensesPanel = ({ userRoles }) => {
   const tabs = [
@@ -27,7 +29,12 @@ const LicensesPanel = ({ userRoles }) => {
     tabs.splice(3, 0, {
       id: 'license-templates-create',
       name: 'Create License Template',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <CreateLicenseTemplateTab />
+        </Fragment>
+      ),
     });
   }
   return <EuiTabbedContent tabs={tabs} autoFocus="selected" />;
