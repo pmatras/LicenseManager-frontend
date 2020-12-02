@@ -146,7 +146,7 @@ const CreateLicenseTemplateTab = () => {
           </EuiText>
         }
       >
-        <EuiFormRow label="Template Name">
+        <EuiFormRow label="Template Fields">
           <EuiFlexGroup gutterSize="s">
             <EuiFlexItem grow>
               <EuiFieldText
