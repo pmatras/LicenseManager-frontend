@@ -3,7 +3,10 @@ import axios from '../../../common/axios';
 
 import { EuiBadge, EuiButton, EuiHealth, EuiInMemoryTable } from '@elastic/eui';
 
-import { createDangerToast } from '../../../common/toastsUtils';
+import {
+  createDangerToast,
+  createSuccessToast,
+} from '../../../common/toastsUtils';
 
 function LicensesManagementTab() {
   const [licensesList, setLicensesList] = useState([]);
@@ -67,6 +70,47 @@ function LicensesManagementTab() {
     return uniqueTemplates;
   };
 
+  const reactivateLicense = ({ id }) => {
+    axios
+      .post(`/api/licenses/reactivate?license_id=${id}`)
+      .then(({ data }) => {
+        createSuccessToast('Success', data.message);
+        getLicensesList();
+      })
+      .catch((error) => createDangerToast('Error', error));
+  };
+
+  const disableLicense = ({ id }) => {
+    axios
+      .post(`/api/licenses/disable?license_id=${id}`)
+      .then(({ data }) => {
+        createSuccessToast('Success', data.message);
+        getLicensesList();
+      })
+      .catch((error) => createDangerToast('Error', error));
+  };
+
+  const actions = [
+    {
+      name: 'Reactivate license',
+      description: 'Reactivate this license',
+      icon: 'play',
+      type: 'icon',
+      isPrimary: true,
+      onClick: reactivateLicense,
+      available: ({ isActive }) => !isActive,
+    },
+    {
+      name: 'Disable license',
+      description: 'Disable this license',
+      icon: 'stop',
+      type: 'icon',
+      isPrimary: true,
+      onClick: disableLicense,
+      available: ({ isActive }) => isActive,
+    },
+  ];
+
   const columns = [
     {
       field: 'name',
@@ -108,6 +152,10 @@ function LicensesManagementTab() {
       render: (isActive) => (
         <EuiHealth color={isActive ? 'success' : 'danger'} />
       ),
+    },
+    {
+      field: 'Actions',
+      actions,
     },
   ];
 
