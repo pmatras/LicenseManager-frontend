@@ -173,7 +173,9 @@ const CreateLicenseTab = () => {
                 field = (
                   <EuiFormRow label={`${fieldName}: ${fieldType}`} key={index}>
                     <EuiSwitch
-                      label="True/False"
+                      label={
+                        licenseDetails.values[fieldName] ? 'True' : 'False'
+                      }
                       name={fieldName}
                       checked={licenseDetails.values[fieldName]}
                       onChange={(e) => onSwitchChange(e, fieldName)}
@@ -201,17 +203,30 @@ const CreateLicenseTab = () => {
     );
   };
 
-  const generateLicense = () => {
-    const payload = {
-      ...licenseDetails,
-    };
-    const { values } = licenseDetails;
-    Object.keys(values).forEach((key) => {
-      const value = values[key];
-      isNaN(value)
-        ? (payload.values[key] = value)
-        : (payload.values[key] = Number(value));
+  const parseNumericValues = (object) => {
+    const parsed = {};
+    Object.keys(object).forEach((key) => {
+      const value = object[key];
+      if (typeof value === 'string' && isFinite(value)) {
+        parsed[key] = Number(value);
+      } else {
+        parsed[key] = value;
+      }
     });
+
+    return parsed;
+  };
+
+  const generateLicense = () => {
+    const details = licenseDetails;
+    const { values } = details;
+    delete details.values;
+    const payload = {
+      ...parseNumericValues(details),
+      values: {
+        ...parseNumericValues(values),
+      },
+    };
 
     payload.expirationDate = licenseDetails.expirationDate.format(
       'YYYY-MM-DD HH:mm'
@@ -272,6 +287,7 @@ const CreateLicenseTab = () => {
             onChange={onExpirationDateChange}
             dateFormat="YYYY-MM-DD HH:mm"
             timeFormat="HH:mm"
+            minDate={moment()}
           />
         </EuiFormRow>
       </EuiDescribedFormGroup>
