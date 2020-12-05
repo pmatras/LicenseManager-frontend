@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from '../../../common/axios';
 
 import { EuiBadge, EuiButton, EuiHealth, EuiInMemoryTable } from '@elastic/eui';
@@ -8,11 +8,16 @@ import {
   createSuccessToast,
 } from '../../../common/toastsUtils';
 
+import DetailsModal from '../../modals/detailsModal';
+import LicenseDetailsForm from '../../forms/licenseDetailsForm';
+
 function LicensesManagementTab() {
   const [licensesList, setLicensesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [licenseCustomersList, setLicenseCustomersList] = useState([]);
   const [licenseTemplatesList, setLicenseTemplatesList] = useState([]);
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
+  const [licenseDetails, setLicenseDetails] = useState({});
 
   useEffect(() => {
     getLicensesList();
@@ -90,6 +95,16 @@ function LicensesManagementTab() {
       .catch((error) => createDangerToast('Error', error));
   };
 
+  const showLicenseDetails = (license) => {
+    setLicenseDetails(license);
+    setIsDetailsModalVisible(true);
+  };
+
+  const closeLicenseDetails = () => {
+    setLicenseDetails({});
+    setIsDetailsModalVisible(false);
+  };
+
   const actions = [
     {
       name: 'Reactivate license',
@@ -108,6 +123,13 @@ function LicensesManagementTab() {
       isPrimary: true,
       onClick: disableLicense,
       available: ({ isActive }) => isActive,
+    },
+    {
+      name: `Manage license`,
+      description: 'Manage license',
+      icon: 'document',
+      type: 'icon',
+      onClick: showLicenseDetails,
     },
   ];
 
@@ -170,72 +192,83 @@ function LicensesManagementTab() {
     </EuiButton>
   );
 
-  return (
-    <EuiInMemoryTable
-      itemId="id"
-      items={licensesList}
-      noItemsMessage="No licenses found"
-      columns={columns}
-      loading={isLoading}
-      pagination
-      search={{
-        toolsRight: renderToolsRight(),
-        box: {
-          incremental: true,
-        },
-        filters: [
-          {
-            type: 'field_value_toggle_group',
-            field: 'isActive',
-            items: [
-              {
-                value: true,
-                name: 'Active',
-              },
-              {
-                value: false,
-                name: 'Inactive',
-              },
-            ],
-          },
-          {
-            type: 'field_value_toggle_group',
-            field: 'isExpired',
-            items: [
-              {
-                value: false,
-                name: 'Valid',
-              },
-              {
-                value: true,
-                name: 'Expired',
-              },
-            ],
-          },
-          {
-            type: 'field_value_selection',
-            field: 'customer.name',
-            name: 'Customer(s)',
-            filterWith: 'includes',
-            operator: 'exact',
-            multiSelect: 'or',
-            options: licenseCustomersList,
-            noOptionsMessage: 'No license customers available',
-          },
-          {
-            type: 'field_value_selection',
-            field: 'usedTemplate.name',
-            name: 'Template(s)',
-            filterWith: 'includes',
-            operator: 'exact',
-            multiSelect: 'or',
-            options: licenseTemplatesList,
-            noOptionsMessage: 'No license templates available',
-          },
-        ],
-      }}
-      sorting
+  const licenseDetailsModal = isDetailsModalVisible ? (
+    <DetailsModal
+      title={`License ${licenseDetails?.name} for ${licenseDetails?.customer?.name}`}
+      content={<LicenseDetailsForm licenseDetails={licenseDetails} />}
+      closeModal={closeLicenseDetails}
     />
+  ) : null;
+
+  return (
+    <Fragment>
+      {licenseDetailsModal}
+      <EuiInMemoryTable
+        itemId="id"
+        items={licensesList}
+        noItemsMessage="No licenses found"
+        columns={columns}
+        loading={isLoading}
+        pagination
+        search={{
+          toolsRight: renderToolsRight(),
+          box: {
+            incremental: true,
+          },
+          filters: [
+            {
+              type: 'field_value_toggle_group',
+              field: 'isActive',
+              items: [
+                {
+                  value: true,
+                  name: 'Active',
+                },
+                {
+                  value: false,
+                  name: 'Inactive',
+                },
+              ],
+            },
+            {
+              type: 'field_value_toggle_group',
+              field: 'isExpired',
+              items: [
+                {
+                  value: false,
+                  name: 'Valid',
+                },
+                {
+                  value: true,
+                  name: 'Expired',
+                },
+              ],
+            },
+            {
+              type: 'field_value_selection',
+              field: 'customer.name',
+              name: 'Customer(s)',
+              filterWith: 'includes',
+              operator: 'exact',
+              multiSelect: 'or',
+              options: licenseCustomersList,
+              noOptionsMessage: 'No license customers available',
+            },
+            {
+              type: 'field_value_selection',
+              field: 'usedTemplate.name',
+              name: 'Template(s)',
+              filterWith: 'includes',
+              operator: 'exact',
+              multiSelect: 'or',
+              options: licenseTemplatesList,
+              noOptionsMessage: 'No license templates available',
+            },
+          ],
+        }}
+        sorting
+      />
+    </Fragment>
   );
 }
 
