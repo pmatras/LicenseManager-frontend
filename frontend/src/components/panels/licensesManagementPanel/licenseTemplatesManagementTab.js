@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from '../../../common/axios';
 
 import {
@@ -17,10 +17,15 @@ import {
   createSuccessToast,
 } from '../../../common/toastsUtils';
 
+import DetailsModal from '../../modals/detailsModal';
+import LicenseTemplateDetailsForm from '../../forms/licenseTemplateDetailsForm';
+
 const LicenseTemplatesManagementTab = () => {
   const [licenseTemplatesList, setLicenseTemplatesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [itemIdToExpandedRowMap, setItemIdToExpandedRowMap] = useState({});
+  const [templateDetails, setTemplateDetails] = useState({});
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
 
   useEffect(() => {
     getLicenseTemplatesList();
@@ -86,6 +91,16 @@ const LicenseTemplatesManagementTab = () => {
     setItemIdToExpandedRowMap(itemIdToExpandedRowMapValues);
   };
 
+  const showTemplateDetails = (template) => {
+    setTemplateDetails(template);
+    setIsDetailsModalVisible(true);
+  };
+
+  const closeTemplateDetails = () => {
+    setTemplateDetails({});
+    setIsDetailsModalVisible(false);
+  };
+
   const actions = [
     {
       name: 'Delete template',
@@ -93,6 +108,13 @@ const LicenseTemplatesManagementTab = () => {
       icon: 'trash',
       type: 'icon',
       onClick: deleteLicenseTemplate,
+    },
+    {
+      name: 'Show details',
+      description: `Show template's public key details`,
+      icon: 'document',
+      type: 'icon',
+      onClick: showTemplateDetails,
     },
   ];
 
@@ -114,6 +136,7 @@ const LicenseTemplatesManagementTab = () => {
     {
       field: 'editionTime',
       name: 'Edition Time',
+      sortable: true,
       render: (editionTime) => editionTime || 'N/A',
     },
     {
@@ -149,23 +172,34 @@ const LicenseTemplatesManagementTab = () => {
     </EuiButton>
   );
 
-  return (
-    <EuiInMemoryTable
-      itemId="id"
-      items={licenseTemplatesList}
-      itemIdToExpandedRowMap={itemIdToExpandedRowMap}
-      noItemsMessage="No license templates found"
-      columns={columns}
-      loading={isLoading}
-      pagination
-      search={{
-        toolsRight: renderToolsRight(),
-        box: {
-          incremental: true,
-        },
-      }}
-      sorting
+  const templateDetailsModal = isDetailsModalVisible ? (
+    <DetailsModal
+      title={`License template ${templateDetails?.name}'s details`}
+      content={<LicenseTemplateDetailsForm templateDetails={templateDetails} />}
+      closeModal={closeTemplateDetails}
     />
+  ) : null;
+
+  return (
+    <Fragment>
+      {templateDetailsModal}
+      <EuiInMemoryTable
+        itemId="id"
+        items={licenseTemplatesList}
+        itemIdToExpandedRowMap={itemIdToExpandedRowMap}
+        noItemsMessage="No license templates found"
+        columns={columns}
+        loading={isLoading}
+        pagination
+        search={{
+          toolsRight: renderToolsRight(),
+          box: {
+            incremental: true,
+          },
+        }}
+        sorting
+      />
+    </Fragment>
   );
 };
 
