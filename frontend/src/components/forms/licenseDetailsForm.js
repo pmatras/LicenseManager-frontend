@@ -121,7 +121,7 @@ const LicenseDetailsForm = ({ licenseDetails }) => {
               >
                 {licenseFile.verified
                   ? `You can be sure that license file's content hasn't been changed since license generation`
-                  : `License file's content hasn't been verified successfully - somebody changed its content since license generation. Be aware of it.`}
+                  : `License file's content hasn't been verified successfully - somebody unauthorized changed its content since license generation. Be aware of it.`}
               </EuiCallOut>
             </EuiFlexItem>
           )}
@@ -130,7 +130,11 @@ const LicenseDetailsForm = ({ licenseDetails }) => {
             <EuiTextArea
               fullWidth
               readOnly
-              value={isLicenseFileVisible ? licenseFile.fileContent : ''}
+              value={
+                isLicenseFileVisible
+                  ? JSON.stringify(JSON.parse(licenseFile.fileContent), null, 2)
+                  : ''
+              }
             />
           </EuiFlexItem>
         </EuiFlexGroup>
