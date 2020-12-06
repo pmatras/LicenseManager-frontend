@@ -2,6 +2,7 @@ import { licensesIcon, settingsIcon, securityIcon } from '../assets/icons';
 import CustomersPanel from '../components/panels/customersManagementPanel/customersPanel';
 import LicensesPanel from '../components/panels/licensesManagementPanel/licensesPanel';
 import LicensesOverviewPanel from '../components/panels/licensesOverviewPanel/licensesOverviewPanel';
+import LicensesStatisticsPanel from '../components/panels/licensesStatisticsPanel.js/licensesStatisticsPanel';
 import RolesPanel from '../components/panels/rolesManagementPanel/rolesPanel';
 import UsersPanel from '../components/panels/usersManagementPanel/usersPanel';
 
@@ -32,6 +33,7 @@ const LICENSES_NAV_ROUTE = {
       title: 'Statistics',
       icon: 'stats',
       path: '/statistics',
+      component: LicensesStatisticsPanel,
     },
   ],
 };
