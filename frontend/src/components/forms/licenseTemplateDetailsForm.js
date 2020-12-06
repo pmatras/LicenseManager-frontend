@@ -42,7 +42,7 @@ const LicenseTemplateDetailsForm = ({ templateDetails }) => {
         fullWidth
         label={
           <EuiToolTip
-            content={`Encoded License Template's Public Key can be used to transform it back into Public Key and should be used in your product's code to check if license file hasn't been changed 
+            content={`Base64 encoded License Template's Public Key can be used to transform it back into Public Key and should be used in your product's code to check if license file hasn't been changed 
             by unathorized people in conjuction with license key entered by customer. It's also usefull for generating key for decrypting license file's content generated from this template.`}
             position="bottom"
           >
