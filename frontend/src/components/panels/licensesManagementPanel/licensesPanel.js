@@ -6,18 +6,30 @@ import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 
 import CreateLicenseTemplateTab from './createLicenseTemplateTab';
 import LicenseTemplatesManagementTab from './licenseTemplatesManagementTab';
+import CreateLicenseTab from './createLicenseTab';
+import LicensesManagementTab from './licensesManagementTab';
 
 const LicensesPanel = ({ userRoles }) => {
   const tabs = [
     {
       id: 'licenses-management',
       name: 'Licenses Management',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <LicensesManagementTab />
+        </Fragment>
+      ),
     },
     {
       id: 'license-create',
       name: 'Create License',
-      content: '',
+      content: (
+        <Fragment>
+          <EuiSpacer size="xl" />
+          <CreateLicenseTab />
+        </Fragment>
+      ),
     },
   ];
 

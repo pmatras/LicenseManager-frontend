@@ -142,7 +142,8 @@ const CreateLicenseTemplateTab = () => {
         description={
           <EuiText>
             Select name for each template field with its type from supported
-            ones
+            ones. Note that customerName, creationDate and expirationDate fields
+            are encrypted by default in license file
           </EuiText>
         }
       >
