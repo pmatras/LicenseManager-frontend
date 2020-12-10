@@ -68,6 +68,8 @@ const RolesManagementTab = () => {
         getRolesList();
       })
       .catch((error) => createDangerToast('Error', error));
+
+    closeEditModal();
   };
 
   const renderToolsRight = () => (
