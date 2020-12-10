@@ -99,10 +99,7 @@ const LoginForm = ({
           <EuiButton
             fill
             size="m"
-            type="submit"
-            onClick={() => {
-              submitLoginRequest();
-            }}
+            onClick={submitLoginRequest}
             minWidth="50%"
             isLoading={isAuthenticationInProgress}
           >
