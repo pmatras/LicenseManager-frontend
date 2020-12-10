@@ -73,6 +73,7 @@ const UsersManagementTab = () => {
   const showEditModal = (user) => {
     setIsEditModalVisible(true);
     setUserToEdit(user);
+    setSelectedRoles(user.roles.map(({ name }) => ({ label: name })));
   };
 
   const closeEditModal = () => {
@@ -92,6 +93,8 @@ const UsersManagementTab = () => {
         getUsersList();
       })
       .catch((error) => createDangerToast('Error', error));
+
+    closeEditModal();
   };
 
   const toggleUserDetails = (user) => {
