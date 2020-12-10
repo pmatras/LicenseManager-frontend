@@ -1,4 +1,5 @@
 import { licensesIcon, settingsIcon, securityIcon } from '../assets/icons';
+import AlertsPanel from '../components/panels/alertsSettingsPanel/alertsPanel';
 import CustomersPanel from '../components/panels/customersManagementPanel/customersPanel';
 import LicensesPanel from '../components/panels/licensesManagementPanel/licensesPanel';
 import LicensesOverviewPanel from '../components/panels/licensesOverviewPanel/licensesOverviewPanel';
@@ -72,6 +73,7 @@ const SETTINGS_NAV_ROUTE = {
       title: 'Alerts Settings',
       icon: 'email',
       path: '/alerts',
+      component: AlertsPanel,
     },
     {
       title: 'Application Settings',
