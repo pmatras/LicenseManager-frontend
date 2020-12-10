@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import axios from '../../../common/axios';
 
 import { EuiBadge, EuiButton, EuiHealth, EuiInMemoryTable } from '@elastic/eui';
 
 import { createDangerToast } from '../../../common/toastsUtils';
+import { changePageTitle } from '../../../redux/slices/navigationSlice';
 
-const LicensesOverviewPanel = () => {
+const LicensesOverviewPanel = ({ changePageTitle }) => {
   const [licensesList, setLicensesList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [licenseCustomersList, setLicenseCustomersList] = useState([]);
   const [licenseTemplatesList, setLicenseTemplatesList] = useState([]);
 
   useEffect(() => {
+    changePageTitle('Licenses Overview');
     getLicensesList();
   }, []);
 
@@ -236,4 +240,12 @@ const LicensesOverviewPanel = () => {
   );
 };
 
-export default LicensesOverviewPanel;
+LicensesOverviewPanel.propTypes = {
+  changePageTitle: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changePageTitle: (title) => dispatch(changePageTitle(title)),
+});
+
+export default connect(null, mapDispatchToProps)(LicensesOverviewPanel);

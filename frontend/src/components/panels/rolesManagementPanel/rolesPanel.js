@@ -1,10 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 
 import RolesManagementTab from './rolesManagementTab';
 import CreateRoleTab from './createRoleTab';
+import { changePageTitle } from '../../../redux/slices/navigationSlice';
 
-const RolesPanel = () => {
+const RolesPanel = ({ changePageTitle }) => {
+  useEffect(() => {
+    changePageTitle('Roles');
+  }, []);
+
   const tabs = [
     {
       id: 'roles-management',
@@ -30,4 +38,12 @@ const RolesPanel = () => {
   return <EuiTabbedContent tabs={tabs} autoFocus="selected" />;
 };
 
-export default RolesPanel;
+RolesPanel.propTypes = {
+  changePageTitle: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changePageTitle: (title) => dispatch(changePageTitle(title)),
+});
+
+export default connect(null, mapDispatchToProps)(RolesPanel);

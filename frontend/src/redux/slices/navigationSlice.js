@@ -12,12 +12,19 @@ const initialState = {
   isUserMenuOpened: false,
   selectedTheme: getThemePreference(),
   toastsList: [],
+  pageTitle: 'Home page',
 };
 
 const navigationSlice = createSlice({
   name: 'navigation',
   initialState,
   reducers: {
+    changePageTitle: (state, { payload }) => {
+      return {
+        ...state,
+        pageTitle: payload,
+      };
+    },
     closeMenu: (state) => {
       return {
         ...state,
@@ -85,6 +92,7 @@ const navigationSlice = createSlice({
 const {
   reducer: navigationReducer,
   actions: {
+    changePageTitle,
     closeMenu,
     toggleMenu,
     toggleMenuDock,
@@ -100,6 +108,7 @@ const {
 
 export {
   navigationReducer,
+  changePageTitle,
   closeMenu,
   toggleMenu,
   toggleMenuDock,

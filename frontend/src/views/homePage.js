@@ -20,7 +20,7 @@ import CollapsibleSideNav from '../components/navigation/collapsibleSideNav';
 import ToastList from '../components/navigation/toastList';
 import { ADMIN_NAV_ROUTES, USER_NAV_ROUTES } from '../routes/navigationRoutes';
 
-const HomePage = ({ userRoles }) => {
+const HomePage = ({ userRoles, pageTitle }) => {
   const renderNestedRoutes = () => {
     return userRoles.includes('ADMIN')
       ? renderRoutes(ADMIN_NAV_ROUTES)
@@ -36,21 +36,15 @@ const HomePage = ({ userRoles }) => {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="m">
-                <h1>Page title</h1>
+                <h1>{pageTitle}</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
-            <EuiPageHeaderSection>Page abilities</EuiPageHeaderSection>
+            <EuiPageHeaderSection></EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiPageContent>
             <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
-                <EuiTitle>
-                  <h2>Content title</h2>
-                </EuiTitle>
-              </EuiPageContentHeaderSection>
-              <EuiPageContentHeaderSection>
-                Content abilities
-              </EuiPageContentHeaderSection>
+              <EuiPageContentHeaderSection></EuiPageContentHeaderSection>
+              <EuiPageContentHeaderSection></EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiPageContentBody>
               <Switch>{renderNestedRoutes()}</Switch>
@@ -80,10 +74,12 @@ const renderRoutes = (navigationRoutes) => {
 
 HomePage.propTypes = {
   userRoles: PropTypes.array.isRequired,
+  pageTitle: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ authentication: { user } }) => ({
+const mapStateToProps = ({ authentication: { user }, navigation }) => ({
   userRoles: user.roles,
+  pageTitle: navigation.pageTitle,
 });
 
 export default connect(mapStateToProps)(HomePage);

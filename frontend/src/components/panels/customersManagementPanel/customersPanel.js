@@ -1,12 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { EuiSpacer, EuiTabbedContent } from '@elastic/eui';
 import CustomersManagementTab from './customersManagementTab';
 import CreateGroupTab from './createGroupTab';
 import CreateCustomerTab from './createCustomerTab';
 import GroupsManagementTab from './groupsManagementTab';
+import { changePageTitle } from '../../../redux/slices/navigationSlice';
 
-const CustomersPanel = () => {
+const CustomersPanel = ({ changePageTitle }) => {
+  useEffect(() => {
+    changePageTitle('Customers');
+  }, []);
+
   const tabs = [
     {
       id: 'customers-management',
@@ -53,4 +60,12 @@ const CustomersPanel = () => {
   return <EuiTabbedContent tabs={tabs} autoFocus="selected" />;
 };
 
-export default CustomersPanel;
+CustomersPanel.propTypes = {
+  changePageTitle: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  changePageTitle: (title) => dispatch(changePageTitle(title)),
+});
+
+export default connect(null, mapDispatchToProps)(CustomersPanel);

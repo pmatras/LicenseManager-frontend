@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,8 +8,13 @@ import CreateLicenseTemplateTab from './createLicenseTemplateTab';
 import LicenseTemplatesManagementTab from './licenseTemplatesManagementTab';
 import CreateLicenseTab from './createLicenseTab';
 import LicensesManagementTab from './licensesManagementTab';
+import { changePageTitle } from '../../../redux/slices/navigationSlice';
 
-const LicensesPanel = ({ userRoles }) => {
+const LicensesPanel = ({ changePageTitle, userRoles }) => {
+  useEffect(() => {
+    changePageTitle('Licenses');
+  }, []);
+
   const tabs = [
     {
       id: 'licenses-management',
@@ -59,6 +64,7 @@ const LicensesPanel = ({ userRoles }) => {
 };
 
 LicensesPanel.propTypes = {
+  changePageTitle: PropTypes.func.isRequired,
   userRoles: PropTypes.array.isRequired,
 };
 
@@ -66,4 +72,8 @@ const mapStateToProps = ({ authentication: { user } }) => ({
   userRoles: user.roles,
 });
 
-export default connect(mapStateToProps)(LicensesPanel);
+const mapDispatchToProps = (dispatch) => ({
+  changePageTitle: (title) => dispatch(changePageTitle(title)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LicensesPanel);

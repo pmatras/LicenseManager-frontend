@@ -18,15 +18,17 @@ import {
   EUI_CHARTS_THEME_LIGHT,
 } from '@elastic/eui/dist/eui_charts_theme';
 
+import { changePageTitle } from '../../../redux/slices/navigationSlice';
 import { createDangerToast } from '../../../common/toastsUtils';
 import LoadingPage from '../../../views/loadingPage';
 import CategoricalChart from './categoricalChart';
 
-const LicensesStatisticsPanel = ({ selectedTheme }) => {
+const LicensesStatisticsPanel = ({ changePageTitle, selectedTheme }) => {
   const [licensesStats, setLicensesStats] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    changePageTitle('Licenses Statistics');
     getLicensesStats();
   }, []);
 
@@ -191,6 +193,7 @@ const LicensesStatisticsPanel = ({ selectedTheme }) => {
 };
 
 LicensesStatisticsPanel.propTypes = {
+  changePageTitle: PropTypes.func.isRequired,
   selectedTheme: PropTypes.string.isRequired,
 };
 
@@ -198,4 +201,11 @@ const mapStateToProps = ({ navigation }) => ({
   selectedTheme: navigation.selectedTheme,
 });
 
-export default connect(mapStateToProps)(LicensesStatisticsPanel);
+const mapDispatchToProps = (dispatch) => ({
+  changePageTitle: (title) => dispatch(changePageTitle(title)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LicensesStatisticsPanel);
