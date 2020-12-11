@@ -79,7 +79,7 @@ const UserMenu = ({
                 iconType="documentEdit"
                 onClick={(e) => e.preventDefault()}
               >
-                <Link to="user/settings"> Edit account</Link>
+                <Link to="/account/settings"> Edit account</Link>
               </EuiButtonEmpty>
             </EuiFlexItem>
             <EuiFlexItem grow={false}>
