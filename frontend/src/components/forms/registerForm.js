@@ -64,8 +64,8 @@ const RegisterForm = ({
 
   const validateReForms = () => {
     const { password, rePassword, email, reEmail } = userData;
-    setPasswordError(password === rePassword ? '' : `Passwords doesn't match`);
-    setEmailError(email === reEmail ? '' : `Emails doesn't match`);
+    setPasswordError(password === rePassword ? '' : `Passwords don't match`);
+    setEmailError(email === reEmail ? '' : `Emails don't match`);
 
     return password === rePassword && email === reEmail;
   };
