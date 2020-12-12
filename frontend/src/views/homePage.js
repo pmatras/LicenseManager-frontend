@@ -19,6 +19,7 @@ import HeaderNavigation from '../components/navigation/headerNavigation';
 import CollapsibleSideNav from '../components/navigation/collapsibleSideNav';
 import ToastList from '../components/navigation/toastList';
 import { ADMIN_NAV_ROUTES, USER_NAV_ROUTES } from '../routes/navigationRoutes';
+import EditUserAccountPanel from '../components/panels/editUserAccountPanel/editUserAccountPanel';
 
 const HomePage = ({ userRoles, pageTitle }) => {
   const renderNestedRoutes = () => {
@@ -59,17 +60,22 @@ const HomePage = ({ userRoles, pageTitle }) => {
 
 const renderRoutes = (navigationRoutes) => {
   let id = 0;
-  return navigationRoutes.flatMap(({ route, subMenu }) =>
-    subMenu.map(({ path, component: Component }) => (
-      <Route key={id++} path={`${route}${path}`}>
-        {Component ? (
-          <Component />
-        ) : (
-          <div>Content for path: {`${route}${path}`}</div>
-        )}
-      </Route>
-    ))
-  );
+  return [
+    ...navigationRoutes.flatMap(({ route, subMenu }) =>
+      subMenu.map(({ path, component: Component }) => (
+        <Route key={id++} path={`${route}${path}`}>
+          {Component ? (
+            <Component />
+          ) : (
+            <div>Content for path: {`${route}${path}`}</div>
+          )}
+        </Route>
+      ))
+    ),
+    <Route key={id} path="/account/settings">
+      <EditUserAccountPanel />
+    </Route>,
+  ];
 };
 
 HomePage.propTypes = {
