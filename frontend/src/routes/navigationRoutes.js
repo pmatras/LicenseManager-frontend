@@ -1,5 +1,6 @@
 import { licensesIcon, settingsIcon, securityIcon } from '../assets/icons';
 import AlertsPanel from '../components/panels/alertsSettingsPanel/alertsPanel';
+import AuditLogsPanel from '../components/panels/auditLogsPanel/auditLogsPanel';
 import CustomersPanel from '../components/panels/customersManagementPanel/customersPanel';
 import LicensesPanel from '../components/panels/licensesManagementPanel/licensesPanel';
 import LicensesOverviewPanel from '../components/panels/licensesOverviewPanel/licensesOverviewPanel';
@@ -60,6 +61,7 @@ const SECURITY_NAV_ROUTE = {
       title: 'Audit logs',
       icon: 'database',
       path: '/audit',
+      component: AuditLogsPanel,
     },
   ],
 };
