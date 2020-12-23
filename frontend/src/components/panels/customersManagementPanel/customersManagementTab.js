@@ -8,6 +8,7 @@ import {
   EuiButtonIcon,
   EuiDescriptionList,
   EuiInMemoryTable,
+  EuiText,
   RIGHT_ALIGNMENT,
 } from '@elastic/eui';
 
@@ -112,12 +113,32 @@ const CustomersManagementTab = () => {
     closeEditModal();
   };
 
-  const toggleCustomerDetails = (customer) => {
+  const getCustomerLicensesStats = async (id) => {
+    try {
+      const { data } = await axios.get(
+        `/api/licenses/customer_stats?customer_id=${id}`
+      );
+      return data;
+    } catch (error) {
+      createDangerToast(`Failed to get customer's licenses stats`, error);
+    }
+
+    return {};
+  };
+
+  const toggleCustomerDetails = async ({ id }) => {
     const itemIdToExpandedRowMapValues = { ...itemIdToExpandedRowMap };
-    if (itemIdToExpandedRowMapValues[customer.id]) {
-      delete itemIdToExpandedRowMapValues[customer.id];
+    if (itemIdToExpandedRowMapValues[id]) {
+      delete itemIdToExpandedRowMapValues[id];
     } else {
-      const { groups } = customersList.find(({ id }) => id === customer.id);
+      const { groups } = customersList.find(
+        ({ id: customerId }) => customerId === id
+      );
+      const {
+        totalLicensesCount,
+        validLicensesCount,
+        expiredLicensesCount,
+      } = await getCustomerLicensesStats(id);
       const listItems = [
         {
           title: 'Groups',
@@ -131,8 +152,20 @@ const CustomersManagementTab = () => {
             </EuiBadgeGroup>
           ),
         },
+        {
+          title: 'Total Licenses Count',
+          description: <EuiText>{totalLicensesCount}</EuiText>,
+        },
+        {
+          title: 'Valid Licenses Count',
+          description: <EuiText>{validLicensesCount}</EuiText>,
+        },
+        {
+          title: 'Expired Licenses Count',
+          description: <EuiText>{expiredLicensesCount}</EuiText>,
+        },
       ];
-      itemIdToExpandedRowMapValues[customer.id] = (
+      itemIdToExpandedRowMapValues[id] = (
         <EuiDescriptionList listItems={listItems} compressed />
       );
     }
