@@ -31,6 +31,7 @@ const EditUserAccountPanel = ({
   lastName,
 }) => {
   const [userDetails, setUserDetails] = useState({
+    currentPassword: '',
     username,
     password: '',
     rePassword: '',
@@ -54,7 +55,11 @@ const EditUserAccountPanel = ({
   };
 
   const validateForm = () => {
-    const { username, password, rePassword } = userDetails;
+    const { currentPassword, username, password, rePassword } = userDetails;
+    if (currentPassword === '') {
+      setError('Please enter your password first');
+      return false;
+    }
     if (username === '') {
       setError('Please fill in username');
       return false;
@@ -77,8 +82,9 @@ const EditUserAccountPanel = ({
   const editUserAccount = () => {
     if (validateForm()) {
       setError('');
-      const { username: newUsername, password } = userDetails;
+      const { currentPassword, username: newUsername, password } = userDetails;
       const payload = {
+        currentPassword,
         username: newUsername !== username ? newUsername : null,
         password: password || null,
       };
@@ -106,6 +112,17 @@ const EditUserAccountPanel = ({
       </EuiFlexGroup>
       <EuiSpacer size="xl" />
       <EuiForm component="div" isInvalid={!!error} error={error}>
+        <EuiFormRow label="Confirm your password">
+          <EuiFieldPassword
+            readOnly={isFormReadOnly}
+            name="currentPassword"
+            placeholder="Confirm Password"
+            value={userDetails.currentPassword}
+            type="dual"
+            onChange={formHandler}
+          />
+        </EuiFormRow>
+        <EuiSpacer size="xl" />
         <EuiFormRow label="Change username">
           <EuiFieldText
             readOnly={isFormReadOnly}
