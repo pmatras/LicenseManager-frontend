@@ -33,7 +33,7 @@ const HeaderNavigation = ({ isMenuOpened, isMenuDocked, toggleMenu }) => {
         )}
         <EuiHeaderSectionItem border="right" style={padding}>
           <EuiHeaderLogo iconType={icon} onClick={(e) => e.preventDefault()}>
-            <Link to="/home">License Manager</Link>
+            <Link to="/licenses/overview">License Manager</Link>
           </EuiHeaderLogo>
         </EuiHeaderSectionItem>
       </EuiHeaderSection>
