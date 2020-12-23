@@ -13,6 +13,7 @@ import {
   EuiPageContentHeaderSection,
   EuiTitle,
   EuiPageHeader,
+  EuiHeaderLink,
 } from '@elastic/eui';
 
 import HeaderNavigation from '../components/navigation/headerNavigation';
@@ -40,7 +41,17 @@ const HomePage = ({ userRoles, pageTitle }) => {
                 <h1>{pageTitle}</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
-            <EuiPageHeaderSection></EuiPageHeaderSection>
+            <EuiPageHeaderSection>
+              <EuiHeaderLink
+                color="primary"
+                iconType="logoGithub"
+                href={
+                  'https://github.com/birdman98?tab=repositories&q=LicenseManager'
+                }
+                target="_blank"
+                flush="both"
+              />
+            </EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiPageContent>
             <EuiPageContentHeader>
