@@ -1,0 +1,18 @@
+version: '3'
+
+networks:
+  frontend:
+    labels:
+      description: frontend service network
+
+services:
+  frontend:
+    build: ./frontend
+    image: license-manager/frontend:1.0.0
+    container_name: frontend
+    ports:
+      - 443:443
+    hostname: license-manager-frontend
+    networks:
+      - frontend
+    restart: always
