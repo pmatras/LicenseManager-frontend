@@ -1,4 +1,4 @@
-# LicenseManager-frontend
+# LicenseManager-frontend ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/birdman98/LicenseManager-frontend/Build%20React.js%20application) ![GitHub](https://img.shields.io/github/license/birdman98/LicenseManager-frontend) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/birdman98/LicenseManager-frontend) ![GitHub all releases](https://img.shields.io/github/downloads/birdman98/LicenseManager-frontend/total) ![Lines of code](https://img.shields.io/tokei/lines/github/birdman98/LicenseManager-frontend) ![GitHub language count](https://img.shields.io/github/languages/count/birdman98/LicenseManager-frontend) ![GitHub top language](https://img.shields.io/github/languages/top/birdman98/LicenseManager-frontend)
 
 Engineer's Thesis frontend project repository
 
