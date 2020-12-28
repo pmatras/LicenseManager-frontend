@@ -47,10 +47,52 @@ docker-compose -f docker-compose.yaml down
 
 **IMPORTANT NOTE**
 
-- backend URL placed in [.env](./frontend/.env) file should be accessible from client's web browser. Hence you should make sure that URL is not pointing to localhost if you going to use app on other devices in network. It's recommended to use IP or hostname with port exposed by backend service container (port `9800`)
+- because this application is CSR (Client-Side Rendered), backend URL placed in [.env](./frontend/.env) file should be accessible from client's web browser. Hence you should make sure that URL is not pointing to localhost if you going to use app on other devices in network. It's recommended to use IP or hostname with port exposed by backend service container (port `9800`)
 - if your browser refuses to send requests to server through HTTPS, just navigate into server's URL in your browser address bar and accept its certificate
 
 If you want to run application locally, you have to prepare production build of application and serve it through static files server such as Nginx, Node, Apache or Serve. You can also run application in development mode by typing command `yarn start` in directory which contains [package.json](./frontend/package.json) file
+
+## Screenshots
+
+## Mobile usage
+
+Videos presenting usage of License Manager in mobile web browser:
+
+1. Signing in, changing application theme, account edition:
+
+<p align="center">
+    <img src="./assets/mobile-auth.gif" class="center">
+</p>
+
+2. Licenses Management - overview, downloading license files, managing licenses, license templates, creating licenses and license templates:
+
+<p align="center">
+    <img src="./assets/mobile-licenses-management.gif" class="center">
+</p>
+
+3. Customers Management - browsing customers, editing customers, editing customers' groups, creating customers, creating groups:
+
+<p align="center">
+    <img src="./assets/mobile-customers-management.gif" class="center">
+</p>
+
+4. Licenses Statistics - viewing complex licenses statistics:
+
+<p align="center">
+    <img src="./assets/mobile-statistics.gif" class="center">
+</p>
+
+5. Security Management - managing users, pending users, roles, browsing audit events:
+
+<p align="center">
+    <img src="./assets/mobile-security-management.gif" class="center">
+</p>
+
+6. Alerts Settings - managing email alerts settings:
+
+<p align="center">
+    <img src="./assets/mobile-alerts.gif" class="center">
+</p>
 
 ### Credits
 
